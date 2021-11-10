@@ -8,39 +8,44 @@ using ds;
 /// <summary>
 /// Data Type Stack implemented by Data Structure Array
 /// </summary>
-namespace dtstack_dsarr
+namespace dtstack_dsll
 {
     class Stack<T>
     {
-        private Array<T> arr;
-        int top;
+
+        private SLList<T> sllist;
+        int top, size;
+
         public Stack(int maxSize)
         {
-            arr = new ds.Array<T>(maxSize);
+            sllist = new ds.SLList<T>(maxSize);
             top = 0;
+            size = maxSize;
         }
         public void Push(T val)
         {
-            arr.Set(top, val);
+            sllist = new SLList<T>(val, sllist);
             top++;
         }
         public T Pop()
         {
+            T popElement = sllist.GetVal();
+            sllist = sllist.GetNext();
             top--;
-            return arr.Get(top);
+            return popElement;
         }
         public int Length()
         {
             return top;
         }
         public bool isFull()
-        {         
-            return top == arr.Length() ? true : false;
+        {
+            return top == size;
                 
         }
         public bool isEmpty()
         {
-            return top == 0 ? true : false;
+            return top == 0;
         }
         /*
         public override string ToString()

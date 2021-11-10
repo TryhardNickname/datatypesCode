@@ -8,11 +8,11 @@ using ds;
 /// <summary>
 /// Data Type Array implemented by Data Structure Array
 /// </summary>
-namespace dtarr_dssll
+namespace dtarr_dsarr
 {
     public class Array<T>
     {
-        private ds.Array<T> arr;
+        private ds.SLList<T> sllist;
         //==== Constructors ====
         /// <summary>
         /// Constructor that allocates an array of elements with the
@@ -22,14 +22,17 @@ namespace dtarr_dssll
         public Array(int size)
         {
             if (size < 1) throw new ArgumentOutOfRangeException("size must be greater than 0");
-            arr = new ds.Array<T>(size);
+            sllist = new ds.SLList<T>(size);
         }
         public Array(T[] rawArray)
         {
-            arr = new ds.Array<T>(rawArray.Length);
+            sllist = new ds.SLList<T>(rawArray.Length);
+
+            ds.SLList<T> link = sllist;
             for (int ix = 0; ix < rawArray.Length; ix++)
             {
-                arr.Set(ix, rawArray[ix]);
+                link.SetVal(rawArray[ix]);
+                link = link.GetNext();
             }
         }
         /// <summary>
@@ -44,7 +47,11 @@ namespace dtarr_dssll
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
             if (Length() <= ix)
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
-            arr.Set(ix, val);
+
+            ds.SLList<T> link = sllist;
+            for (int i = 0; i < ix; i++)
+                link = link.GetNext();
+            link.SetVal(val);
         }
         // Access:
         /// <summary>
@@ -59,7 +66,12 @@ namespace dtarr_dssll
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
             if (Length() <= ix)
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
-            return arr.Get(ix);
+
+            ds.SLList<T> link = sllist;
+            for (int i = 0; i < ix; i++)
+                link = link.GetNext();
+            return link.GetVal();
+
         }
         /// <summary>
         /// Get the length of the Array
@@ -67,7 +79,15 @@ namespace dtarr_dssll
         /// <returns>the length</returns>
         public int Length()
         {
-            return arr.Length();
+            int counter = 0;
+            ds.SLList<T> link = sllist;
+            while (link != null)
+            {
+                counter++;
+                link = sllist.GetNext();
+            }
+
+            return counter;
         }
         public T this[int ix]
         {
