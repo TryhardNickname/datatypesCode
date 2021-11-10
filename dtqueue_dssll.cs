@@ -13,24 +13,19 @@ namespace dtqueue_dssll.cs
     class Queue<T>
     {
         private SLList<T> sllist;
-        int top, size;
+        public int top, size;
 
         public Queue(int maxSize)
         {
-            sllist = new ds.SLList<T>(maxSize);
+            //sllist = new ds.SLList<T>();
+            sllist = null;
             top = 0;
             size = maxSize;
         }
         public void Enqueue(T val)
         {
             //Console.WriteLine($"({val}) [{sllist.GetVal()}]");
-            //sllist = new SLList<T>(val, sllist);
-
-            if (top == 0)
-            {
-                
-            }
-
+            sllist = new SLList<T>(val, sllist);
             top++;
         }
         public T Dequeue()
@@ -38,9 +33,9 @@ namespace dtqueue_dssll.cs
             SLList<T> temp = sllist;
             T returnValue;
             while (temp.GetNext().GetNext() != null)
-            {              
+            {     
+                //case where only one left do something
                 temp = temp.GetNext();
-                //Console.WriteLine($"-{temp.GetVal()}-");
             }
             top--;
             returnValue = temp.GetNext().GetVal();
@@ -48,17 +43,16 @@ namespace dtqueue_dssll.cs
             temp.SetNext(null);
             return returnValue;
         }
-        public void Peek()
+        public T Peek()
         {
+            T returnValue = default;
             SLList<T> temp = sllist;
             for (int i = 0; i < top; i++)
             {
                 temp = temp.GetNext();
-                if (i == top - 1)
-                {
-                    Console.WriteLine($"{temp.GetVal()} ---");
-                }
+                returnValue = temp.GetVal();
             }
+            return returnValue;
         }
         public int Length()
         {

@@ -37,9 +37,10 @@ namespace datatypes
             {
                 queue.Enqueue(Math.Sqrt(i));
             }
-            for (int i = 0; i < 19; i++)
+
+            for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine($"{queue.Dequeue()}");
+                Console.WriteLine($"-{queue.Dequeue()}-");
             }
         }
     }
